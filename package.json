@@ -8,5 +8,8 @@
   },
   "author": "@duyenho",
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.3.5"
+  }
 }
