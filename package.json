@@ -1,0 +1,12 @@
+{
+  "name": "peripatetica",
+  "version": "1.0.0",
+  "description": "Data transforms for colab with ____x___y____z__",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "@duyenho",
+  "license": "ISC",
+  "type": "module"
+}
