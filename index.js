@@ -15,7 +15,8 @@ function writeToCSVFile(cities) {
 }
 
 function extractAsCSV(cities) {
-  const header = ['city,date,duration,latitude,longitude'];
+  const header = ['city,date,duration,latitude,longitude']
+  cities.sort((a,b) => a.date - b.date)
   const rows = cities.map(city =>
     `${city.city},${city.date},${city.duration},${city.latitude},${city.longitude}`
   )
