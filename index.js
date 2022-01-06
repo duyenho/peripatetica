@@ -18,7 +18,7 @@ function extractAsCSV(cities) {
   const header = ['city,date,duration,latitude,longitude']
   cities.sort((a,b) => a.date - b.date)
   const rows = cities.map(city =>
-    `${city.city},${city.date},${city.duration},${city.latitude},${city.longitude}`
+    `${city.city.trim()},${city.date},${city.duration},${city.latitude},${city.longitude}`
   )
   return header.concat(rows).join('\n')
 }
