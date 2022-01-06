@@ -15,7 +15,7 @@ function writeToCSVFile(cities) {
 }
 
 function extractAsCSV(cities) {
-  const header = ['city,date,duration,latitude,longitude']
+  const header = ['city,date,days,latitude,longitude']
   cities.sort((a,b) => a.date - b.date)
   const rows = cities.map(city =>
     `${city.city.trim()},${city.date},${city.duration},${city.latitude},${city.longitude}`
@@ -29,6 +29,20 @@ function dateToUnixTimestamp(date) {
   return Math.floor(new Date(formattedDate).getTime()/1000)
 }
 
+function durationInDays(duration) {
+  let days = 0
+  const weeksDays = duration.split(' ')
+  weeksDays.forEach(e => {
+    if (e.indexOf('w') === 1) {
+      days = days + parseFloat(e[0]) * 7
+    }
+    if (e.indexOf('d') === 1) {
+      days = days + parseFloat(e[0])
+    }
+  })
+  return days
+}
+
 const client = new Client({})
 const cities = []
 
@@ -39,7 +53,7 @@ fs.createReadStream('data/liam.csv')
       .geocode({
         params: {
           address: row.city,
-          key: process.env.GOOGLE_MAPS_API_KEY
+          key: process.env.GOOGLE_MAPS_API_KEY_DEV
         },
       })
       .then(r => {
@@ -47,7 +61,7 @@ fs.createReadStream('data/liam.csv')
         const city = {
           city: row.city,
           date: dateToUnixTimestamp(row.date),
-          duration: row.duration,
+          duration: durationInDays(row.duration),
           latitude: geocode.lat,
           longitude: geocode.lng,
         }
