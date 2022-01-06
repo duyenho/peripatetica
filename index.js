@@ -9,7 +9,7 @@ function writeToCSVFile(cities) {
     if (err) {
       console.log('Error writing to CSV file', err)
     } else {
-      console.log(`Saved as ${filename}`)
+      console.log(`Saved in ${filename}`)
     }
   })
 }
@@ -20,6 +20,12 @@ function extractAsCSV(cities) {
     `${city.city},${city.date},${city.duration},${city.latitude},${city.longitude}`
   )
   return header.concat(rows).join('\n')
+}
+
+function dateToUnixTimestamp(date) {
+  const dayMonthYear = date.split('/')
+  const formattedDate = `${dayMonthYear[2]}-${dayMonthYear[1]}-${dayMonthYear[0]} 00:00:00.000`
+  return Math.floor(new Date(formattedDate).getTime()/1000)
 }
 
 const client = new Client({})
@@ -39,7 +45,7 @@ fs.createReadStream('data/liam.csv')
         const geocode = r.data.results[0].geometry.location
         const city = {
           city: row.city,
-          date: row.date,
+          date: dateToUnixTimestamp(row.date),
           duration: row.duration,
           latitude: geocode.lat,
           longitude: geocode.lng,
@@ -48,9 +54,10 @@ fs.createReadStream('data/liam.csv')
         writeToCSVFile(cities)
       })
       .catch(e => {
-        console.log(e);
+        console.log(e)
       });
-  })
+    })
   .on('end', () => {
-    console.log('Fin');
-  });
+    console.log('Fin')
+  })
+  
